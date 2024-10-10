@@ -28,11 +28,12 @@ img {
   left: 0;
   bottom: 0;
   background: transparent;
-  transform: translate(-90%, 0);
-  width: 40px;
-  aspect-ratio: 1;
+  transform: translate(-92%, 0);
+  width: 150px;
+  height: 60px;
+  rotate: 2deg;
   border-bottom-right-radius: 100%;
-  box-shadow: 4px 15px 0 white;
+  box-shadow: 24px 15px 0 white;
 }
 .decoStyles::after {
   content: "";
@@ -40,9 +41,63 @@ img {
   right: 0;
   bottom: 0;
   background: transparent;
-  transform: translate(90%, 0);
-  width: 40px;
-  aspect-ratio: 1;
+  transform: translate(92%, 0);
+  rotate: -2deg;
+  width: 150px;
+  height: 60px;
   border-bottom-left-radius: 100%;
-  box-shadow: -4px 15px 0 white;
+  box-shadow: -24px 15px 0 white;
+}
+
+@media screen and (max-width: 400px) {
+  .decoStyles::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: transparent;
+    transform: translate(-95%, -5px);
+    width: 90px;
+    height: 40px;
+    rotate: 2deg;
+    border-bottom-right-radius: 100%;
+    box-shadow: 20px 10px 0 white;
+  }
+  .decoStyles::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background: transparent;
+    transform: translate(95%, -5px);
+    width: 86px;
+    height: 40px;
+    rotate: -1deg;
+    border-bottom-left-radius: 100%;
+    box-shadow: -20px 10px 0 white;
+  }
+}
+
+.bg_filter {
+  background-color: lightblue;
+  backdrop-filter: blur(55px);
+}
+
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Firefox */
+body {
+  scrollbar-width: none;
+  overflow-x: hidden;
 }

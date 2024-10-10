@@ -26,12 +26,7 @@ const Hero = () => {
     offset: ["end start", "end center"],
   });
 
-  // Consistent units for height animation
-  const height = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.4, 0.6, 0.8, 0.9, 1],
-    ["0px", "20px", "40px", "80px", "120px", "160px", "180px"]
-  );
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.5, 1]);
 
   const variants = {
     initial: { translateY: -40, opacity: 0 },
@@ -39,7 +34,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="min-h-[80vh] relative z-10 text-white pt-5 max-sm:pt-20 flex flex-col h-full justify-between">
+    <div className="min-h-[80vh] relative z-10 text-white pt-5 max-[500px]:pt-10 flex flex-col h-full justify-between">
       <div>
         <div className="container h-fit overflow-hidden">
           <motion.h1
@@ -51,9 +46,9 @@ const Hero = () => {
             className="text-4xl max-w-[900px] max-sm:max-w-[450px] md:text-5xl lg:text-6xl font-medium "
           >
             Bringing Creative Visions to Life with Code
-            <small className="text-sm">currently</small>
-            <span className="font-serif lg:text-7xl">@</span>
-            <span className="italic font-extralight text-3xl md:text-3xl lg:text-5xl text-blue-300">
+            <small className="text-sm max-[500px]:hidden">currently</small>
+            <span className="font-serif lg:text-7xl max-[500px]:hidden">@</span>
+            <span className="italic font-extralight text-3xl md:text-3xl lg:text-5xl text-blue-300 max-[500px]:hidden">
               <a href="">SparkrDigitals</a>
             </span>
           </motion.h1>
@@ -62,11 +57,17 @@ const Hero = () => {
         <motion.div ref={targetRef} className="relative sm:container">
           {/* Apply the animated height to the video container */}
           <motion.div
-            style={{ height: isLarge && height }}
+            style={{ opacity: opacity }}
             transition={{ duration: 5, ease: "linear" }}
-            className="flex items-center justify-center max-sm:aspect-video sm:h-32 overflow-hidden relative mt-5 sm:mt-10 rounded-full max-sm:rounded-none"
+            className="flex items-center justify-center max-sm:aspect-video max-sm:container max-sm:rounded-3xl   sm:h-32 overflow-hidden relative mt-5 sm:mt-10 rounded-full max-sm:overflow-hidden"
           >
-            <video src="hero.mp4" autoPlay loop muted>
+            <video
+              src="hero.mp4"
+              className="w-full  max-sm:rounded-2xl"
+              autoPlay
+              loop
+              muted
+            >
               <track
                 default
                 kind="captions"
@@ -82,13 +83,14 @@ const Hero = () => {
         </motion.div>
       </div>
 
-      <div className="capitalize container text-4xl font-light md:text-5xl lg:text-6xl flex max-[500px]:flex-col justify-between max-[500px]:items-start gap-4 items-center mt-7">
+      <div className="capitalize container text-4xl font-light md:text-5xl lg:text-6xl flex max-[500px]:flex-col justify-between max-[500px]:items-start gap-4 items-center mt-20 max-sm:mb-2">
         <div>
           <motion.p
             initial={{ opacity: 0, translateY: -25 }}
             whileInView={{ opacity: 1, translateY: 0 }}
-            transition={{ duration: 0.5, delay: 1.5 }}
-            className="text-xl max-w-64 blg flex max-[500px]:mt-14 justify-center text-gray"
+            transition={{ duration: 0.5, delay: 1.2 }}
+            viewport={{ once: true }}
+            className="text-xl max-w-64 blg flex max-[500px]:mt-5 justify-center text-gray"
           >
             Empowering brands with visually stunning and functional web
             applications.
@@ -96,7 +98,7 @@ const Hero = () => {
           </motion.p>
         </div>
 
-        <div className=" mb-20">
+        <div className=" ">
           <motion.h1
             initial={{ opacity: 0, translateX: 20 }}
             whileInView={{

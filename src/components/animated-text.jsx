@@ -16,7 +16,7 @@ const AnimatedLetter = ({ animation, character }) => (
 const AnimatedWord = ({ animation, isHovered, title }) => (
   <motion.span
     animate={isHovered ? "hover" : "rest"}
-    className="relative mix-blend-difference     whitespace-nowrap"
+    className="relative      whitespace-nowrap"
     initial="rest"
     variants={titleAnimation}
   >
@@ -55,7 +55,7 @@ export default function AnimatedLink({
         className={twMerge(
           "absolute w-full",
           type === "button" ? "top-1/4" : "top-0"
-        )} // Use twMerge
+        )}
       >
         <AnimatedWord
           animation={letterAnimationTwo}
