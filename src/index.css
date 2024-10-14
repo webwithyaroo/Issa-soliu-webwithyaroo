@@ -101,3 +101,10 @@ body {
   scrollbar-width: none;
   overflow-x: hidden;
 }
+
+.contact-filter {
+  border-radius: 12px;
+
+  background: rgba(125, 122, 125, 0.21);
+  backdrop-filter: blur(12px);
+}

@@ -1,32 +1,61 @@
 import { FaArrowRight, FaBars } from "react-icons/fa";
 import AnimatedLink from "../components/animated-text";
-import {
-  easeInOut,
-  easeOut,
-  motion,
-  spring,
-  useMotionValue,
-} from "framer-motion";
-import { useState } from "react";
+import { easeOut, motion, useMotionValue } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+
 const Header = () => {
+  const [pageTitle, setPageTitle] = useState("");
+  const menuRef = useRef(null);
   const [opened, setOpened] = useState(false);
+  const isAboutPage = window.location.pathname === "/about";
+  useEffect(() => {
+    const currentPath = window.location.pathname;
+
+    if (currentPath === "/about") {
+      setPageTitle("About Us: Learn More About Our Journey.");
+    } else if (currentPath === "/contact") {
+      setPageTitle("Get in Touch with Us.");
+    } else if (currentPath === "/portfolio") {
+      setPageTitle("Showcasing Our Work and Creations.");
+    } else {
+      setPageTitle("Bringing Creative Visions to Life with Code."); // Default text for homepage
+    }
+  }, []);
 
   function handleOpenFunction() {
     setOpened((prev) => !prev);
   }
 
+  const handleClickOutside = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setOpened(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   const variants = {
     initial: { height: "100vh", paddingTop: 75 },
     animate: { height: 0, paddingTop: 0 },
   };
 
   return (
-    <section className=" relative h-20  bg-black pt-5 text-white">
+    <section
+      className={`relative h-20 pt-5 text-white ${
+        isAboutPage ? "bg-white" : "bg-black"
+      }`}
+    >
       {/* grid img */}
       <img
-        src="/image/grid.png"
-        alt="grid"
-        className="absolute top-0 z-[1]  left-0 right-0"
+        src={"/image/stroke.webp"}
+        width={1000}
+        height={500}
+        alt="line stroke"
+        className="absolute top-0 h-screen z-[1] w-full object-cover  left-0 right-0 "
       />
       <motion.div
         variants={variants}
@@ -34,9 +63,9 @@ const Header = () => {
         whileInView={"animate"}
         viewport={{ once: true }}
         transition={{ duration: 0.3, delay: 1, ease: "easeOut" }}
-        className="fixed top-0 z-[9999] ] left-0 right-0 w-full h-screen overflow-hidden  bg-white text-black "
+        className="fixed top-0 z-[9999] left-0 right-0 w-full h-screen overflow-hidden bg-white text-black"
       >
-        <div className="container mt-5 max-sm:mt-20  h-fit overflow-hidden">
+        <div className="container mt-5 max-sm:mt-20 h-fit overflow-hidden">
           <motion.h1
             initial={{ opacity: 0, translateX: 20, translateY: 30, rotate: 5 }}
             whileInView={{
@@ -46,94 +75,189 @@ const Header = () => {
               rotate: 0,
             }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-4xl max-w-[900px] max-sm:max-w-[450px] md:text-5xl lg:text-7xl "
+            className="text-4xl max-w-[900px] max-sm:max-w-[450px] md:text-5xl lg:text-7xl"
           >
-            Bringing Creative Visions to Life with Code.
+            {pageTitle}
           </motion.h1>
         </div>
       </motion.div>
       <div className="container z-50 py-4 fixed top-0 left-0 right-0  flex items-center justify-between">
-        <div className="relative z-50">
-          <img src="logo.svg" alt="logo" className="size-10" />
-        </div>
+        <a
+          href="/"
+          className=" flex  justify-center items-center   relative z-50 font-bold  text-xl md:text-xl lg:text-2xl"
+        >
+          <div className="w-fit  overflow-hidden border-r-2 border-blue-500">
+            <motion.h1
+              initial={{ translateX: 40, opacity: 0 }}
+              whileInView={{ translateX: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 1.2, ease: "easeOut" }}
+              className={` w-fit pr-2  ${
+                isAboutPage ? "text-black" : "text-white"
+              } `}
+            >
+              Issa
+            </motion.h1>
+          </div>
+          <div className="w-fit  overflow-hidden border-l-2 border-blue-500">
+            <motion.h1
+              initial={{ translateX: -40, opacity: 0 }}
+              whileInView={{ translateX: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 1.2, ease: "easeOut" }}
+              className={` w-fit pl-2 ${
+                isAboutPage ? "text-black" : "text-white"
+              } `}
+            >
+              Soliu
+            </motion.h1>
+          </div>
+        </a>
         <div className="flex items-center gap-x-10  blg">
           <AnimatedBar handleOpenFunction={handleOpenFunction} />
 
           <motion.div
+            ref={menuRef}
             initial={{ translateX: 0 }}
             animate={{
               translateX: opened ? 0 : "100%",
             }}
-            className="fixed top-0 right-0 z-30  bg-white h-full transition-all duration-700 ease-out overflow-hidden px-10 lg:pl-20 flex items-center justify-center translate-x-full xl:[50%] md:w-[70%] w-full"
+            className="fixed top-0 right-0 z-30  bg-white h-full transition-all duration-700 ease-out overflow-hidden px-10 lg:pl-20 flex items-center justify-center translate-x-full xl:[50%] md:w-[75%] w-full"
           >
             <div
               className="flex items-center justify-between 
              min-[405px]:flex-col w-full"
             >
               <div className=" grid grid-cols-2  justify-between items-center  w-full mb-10 max-[405px]:hidden">
-                <p className="text-gray-300">Social media</p>
-                <p className="text-gray-300 blg  ">Menu</p>
+                <motion.p
+                  initial={{ opacity: 0, translateX: 25 }}
+                  whileInView={{ opacity: 1, translateX: 0 }}
+                  transition={{ ease: easeOut, duration: 0.5 }}
+                  className="text-gray-300"
+                >
+                  Social media
+                </motion.p>
+                <motion.p
+                  initial={{ opacity: 0, translateX: 25 }}
+                  whileInView={{ opacity: 1, translateX: 0 }}
+                  transition={{ ease: easeOut, duration: 0.5 }}
+                  className="text-gray-300 blg  "
+                >
+                  Menu
+                </motion.p>
               </div>
               <div className="grid grid-cols-2  max-[405px]:grid-cols-1 w-full items-center justify-between max-[405px]:grid">
                 <div>
                   <ul className="text-black blg max-[400px]:absolute top-24 flex flex-col max-w-fit gap-y-1">
-                    <li className="hover:text-blue-500 transition-all duration-300 ease-out">
-                      <a href="">
+                    <motion.li
+                      initial={{ opacity: 0, translateX: 25 }}
+                      whileInView={{ opacity: 1, translateX: 0 }}
+                      transition={{ ease: easeOut, duration: 0.5 }}
+                      className="hover:text-blue-500 transition-all duration-300 ease-out  "
+                    >
+                      <a href="https://www.linkedin.com/in/issa-soliu-ridollahi-3ab69129b/">
                         <AnimatedLink title={"LinkedIn"} />
                       </a>
-                    </li>
-                    <li className="hover:text-blue-500 transition-all duration-300 ease-out">
-                      <a href="">
+                    </motion.li>
+                    <motion.li
+                      initial={{ opacity: 0, translateX: 25 }}
+                      whileInView={{ opacity: 1, translateX: 0 }}
+                      transition={{ ease: easeOut, duration: 0.5, delay: 0.2 }}
+                      className="hover:text-blue-500 transition-all duration-300 ease-out"
+                    >
+                      <a href="https://www.instagram.com/webwithyaroo/">
                         <AnimatedLink title={"Instagram"} />
                       </a>
-                    </li>
+                    </motion.li>
 
-                    <li className="hover:text-blue-500 transition-all duration-300 ease-out">
-                      <a href="">
+                    <motion.li
+                      initial={{ opacity: 0, translateX: 25 }}
+                      whileInView={{ opacity: 1, translateX: 0 }}
+                      transition={{ ease: easeOut, duration: 0.5, delay: 0.4 }}
+                      className="hover:text-blue-500 transition-all duration-300 ease-out"
+                    >
+                      <a href="https://x.com/webwithyaroo">
                         <AnimatedLink title={"Twitter"} />
                       </a>
-                    </li>
-                    <li className="hover:text-blue-500 transition-all duration-300 ease-out">
-                      <a href="">
+                    </motion.li>
+                    <motion.li
+                      initial={{ opacity: 0, translateX: 25 }}
+                      whileInView={{ opacity: 1, translateX: 0 }}
+                      transition={{ ease: easeOut, duration: 0.5, delay: 0.6 }}
+                      className="hover:text-blue-500 transition-all duration-300 ease-out"
+                    >
+                      <a href="https://github.com/webwithyaroo">
                         <AnimatedLink title={"GitHub"} />
                       </a>
-                    </li>
+                    </motion.li>
                   </ul>
                 </div>
                 <div>
                   <ul className="md:text-4xl lg:text-5xl text-3xl blg text-black cursor-pointer gap-2 flex flex-col ">
-                    {/* <li>
-                      <AnimatedLink title={"What I do"} />
-                    </li> */}
-
-                    <li className="flex hover:text-blue-500 transition-all duration-300 ease-out group">
+                    <motion.li className="flex hover:text-blue-500 transition-all duration-300 ease-out group">
                       <p className="group-hover:translate-x-2 transition-all duration-300 ease-out group ">
-                        What we do
+                        <a href={"/about"}> What we do</a>
                       </p>{" "}
                       <FaArrowRight className="rotate-45 opacity-50 ml-2 group-hover:rotate-0 group-hover:translate-x-2 transition-all duration-300 ease-out group max-[500px]:hidden" />
-                    </li>
-                    <li className="flex hover:text-blue-500 transition-all duration-300 ease-out group">
-                      <p className="group-hover:translate-x-2 transition-all duration-300 ease-out group ">
+                    </motion.li>
+                    <motion.li
+                      initial={{ opacity: 0, translateX: 25 }}
+                      whileInView={{ opacity: 1, translateX: 0 }}
+                      transition={{ ease: easeOut, duration: 0.5, delay: 0.2 }}
+                      className="flex hover:text-blue-500 transition-all duration-300 ease-out group"
+                    >
+                      <a
+                        href="/portfolio"
+                        className="group-hover:translate-x-2 transition-all duration-300 ease-out group "
+                      >
                         Portfolio
-                      </p>{" "}
+                      </a>{" "}
                       <FaArrowRight className="rotate-45 opacity-50 ml-2 group-hover:rotate-0 group-hover:translate-x-2 transition-all duration-300 ease-out group max-[500px]:hidden" />
-                    </li>
-                    <li className="flex hover:text-blue-500 transition-all duration-300 ease-out group">
+                    </motion.li>
+                    <motion.li
+                      initial={{ opacity: 0, translateX: 25 }}
+                      whileInView={{ opacity: 1, translateX: 0 }}
+                      transition={{ ease: easeOut, duration: 0.5, delay: 0.4 }}
+                      className="flex hover:text-blue-500 transition-all duration-300 ease-out group"
+                    >
                       <p className="group-hover:translate-x-2 transition-all duration-300 ease-out group ">
-                        Let's Talk
+                        <a href={"/contact"}> Let's Talk</a>
                       </p>{" "}
                       <FaArrowRight className="rotate-45 opacity-50 ml-2 group-hover:rotate-0 group-hover:translate-x-2 transition-all duration-300 ease-out group max-[500px]:hidden" />
-                    </li>
+                    </motion.li>
                   </ul>
                 </div>
               </div>
               <div className="text-black absolute blg bottom-5 left-10 lg:left-20">
-                <p className="opacity-50">Get in touch</p>
-                <p className="hover:text-blue-500 transition-all duration-300 ease-out">
-                  <a href="">
-                    <AnimatedLink title={"webwithyaro@gmail.com"} />
+                <motion.p
+                  initial={{ opacity: 0, translateX: 25 }}
+                  whileInView={{ opacity: 1, translateX: 0 }}
+                  transition={{ ease: easeOut, duration: 0.5, delay: 0.3 }}
+                  className="opacity-50 pb-2 text-xl"
+                >
+                  Get in touch
+                </motion.p>
+                <motion.p
+                  initial={{ opacity: 0, translateX: 25 }}
+                  whileInView={{ opacity: 1, translateX: 0 }}
+                  transition={{ ease: easeOut, duration: 0.5, delay: 0.4 }}
+                  className="hover:text-blue-500 transition-all duration-300 ease-out"
+                >
+                  <a href="mailto:olawaleridollahi@gmail.com">
+                    <AnimatedLink title={"Issa.dev@gmail.com"} />
                   </a>
-                </p>
+                </motion.p>
+                <motion.p
+                  initial={{ opacity: 0, translateX: 25 }}
+                  whileInView={{ opacity: 1, translateX: 0 }}
+                  transition={{ ease: easeOut, duration: 0.5, delay: 0.5 }}
+                  className="border-b-[2px] mt-2 border-black border-opacity-50 max-w-fit"
+                >
+                  <a
+                    href="tel:+2347036172918"
+                    className="hover:text-primary  pb-1  "
+                  >
+                    <AnimatedLink title="+234 (070) 36172918" />
+                  </a>
+                </motion.p>
               </div>
             </div>
           </motion.div>
@@ -156,32 +280,9 @@ const Header = () => {
 export default Header;
 
 function AnimatedBar({ handleOpenFunction }) {
-  const mapRange = (inputLower, inputUpper, outputLower, outputUpper) => {
-    const INPUT_RANGE = inputUpper - inputLower;
-    const OUTPUT_RANGE = outputUpper - outputLower;
-    return (value) =>
-      outputLower + (((value - inputLower) / INPUT_RANGE) * OUTPUT_RANGE || 0);
-  };
-
-  const setTransform = (item, event, x, y) => {
-    const bounds = item.getBoudingClientRect();
-    const relativeX = event.clientX - bounds.left;
-    const relativeY = event.clientY - bounds.top;
-    const xRange = mapRange(0, bounds.width, -1, 1)(relativeX);
-    const yRange = mapRange(0, bounds.width, -1, 1)(relativeY);
-    x.set(xRange * 10);
-    y.set(yRange * 10);
-  };
   return (
     <motion.button
-      onPointerMove={(event) => {
-        const x = useMotionValue(0);
-        const y = useMotionValue(0);
-        const item = event.currentTarget;
-        setTransform(item, event, x, y);
-      }}
       onClick={handleOpenFunction}
-      // style={{ x, y }}
       className=" rounded-full group  border-gray  z-50 size-12 lg:size-20 flex items-center justify-center flex-col bg-blue-500 transition-all duration-500 ease-in-out"
     >
       <img

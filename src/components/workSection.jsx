@@ -5,6 +5,7 @@ import {
   useScroll,
   useTransform,
   AnimatePresence,
+  easeOut,
 } from "framer-motion";
 import { FaArrowUp } from "react-icons/fa";
 const WorkSection = () => {
@@ -67,18 +68,23 @@ const WorkSection = () => {
         <div className="absolute top-3  max-md:top-[10px] translate-y-[-100%] decoStyles bg-white w-20 h-16   rounded-t-full flex items-center justify-center ">
           <FaArrowUp className="size-10 relative z-10 border-2 opacity-20 rotate-[180deg] mt-4 rounded-full p-2" />
         </div>
-        <p className="text-3xl pt-20 text-balance max-w-[700px] md:text-4xl lg:text-5xl blg font-medium text-center px-2 ">
-          <AnimatedWords
-            delay={0.2}
-            text={
-              "With several years of industry experience, I've collaborated with businesses of all sizes"
-            }
-          />
-        </p>
+        <motion.p
+          initial={{ translateY: 30, opacity: 0 }}
+          whileInView={{ translateY: 0, opacity: 1 }}
+          transition={{ delay: 0.5, ease: easeOut, duration: 0.5 }}
+          viewport={{ once: true }}
+          className="text-3xl pt-20 text-balance max-w-[700px] md:text-4xl lg:text-5xl blg font-medium text-center px-2 "
+        >
+          With several years of industry experience, I've collaborated with
+          businesses of all sizes
+        </motion.p>
 
-        <button className=" relative z-20 mx-auto rounded-full ring-slate-500 ring-1 px-4 py-3 mt-10 blg ">
+        <a
+          href="/about"
+          className=" relative z-50 mx-auto rounded-full ring-slate-500 ring-1 px-4 py-3 mt-10 blg "
+        >
           <AnimatedLink title={"DISCOVER MY JOURNEY "} />
-        </button>
+        </a>
         <div className="w-full overflow-hidden  text-center border-b-[1px] border-slate-200 ">
           <h1 className="text-[12vw]  translate-y-5 lg:translate-y-10  leading-none md:text-8xl lg:text-9xl  font-bold  mt-20">
             <AnimatedWords
@@ -171,7 +177,7 @@ function MyProjects() {
             initial={{ opacity: 0, translateY: 25 }}
             whileInView={{ opacity: 1, translateY: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
             onClick={() => handleAnimation(1)}
             className="border-b-[1px] border-white text-start relative group isolate overflow-hidden"
           >
@@ -246,7 +252,7 @@ function MyProjects() {
             initial={{ opacity: 0, translateY: 25 }}
             whileInView={{ opacity: 1, translateY: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.5, ease: "easeOut" }}
+            transition={{ duration: 0.3, delay: 0.3, ease: "easeOut" }}
             onClick={() => handleAnimation(2)}
             className="text-start border-b-[1px] border-white relative group isolate overflow-hidden"
           >
@@ -329,7 +335,7 @@ function MyProjects() {
             initial={{ opacity: 0, translateY: 25 }}
             whileInView={{ opacity: 1, translateY: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 1, ease: "easeOut" }}
+            transition={{ duration: 0.3, delay: 0.5, ease: "easeOut" }}
             onClick={() => handleAnimation(3)}
             className="text-start border-b-[1px] border-white relative group isolate overflow-hidden"
           >
